@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO Telegram WebApps</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+      body {
+        color: var(--tg-theme-text-color);
+        background: var(--tg-theme-bg-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 18px;
+      }
+      input {
+        padding: 5px;
+        border-radius: 5px;
+      }
+      .input-wrapper {
+        margin: 10px 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .hide {
+        display: none;
+      }
+      .show {
+        display: inline;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <section>
+      <h1>Creation TODO list</h1>
+      <div class="input-wrapper">
+        <label for="job">Input your job</label>
+        <span class="hide error error-job">field job is required</span>
+        <input id="job" name="job" type="text" required />
+      </div>
+      <div class="input-wrapper">
+        <label for="date">Input your date in the format DD.MM.YYYY</label>
+        <span class="hide error error-date">field date is required</span>
+        <input
+          id="date"
+          name="date"
+          type="text"
+          pattern="\d{2}\.\d{2}\.\d{4}"
+          placeholder="DD.MM.YYYY"
+          required
+        />
+      </div>
+    </section>
+  </body>
+
+  <script>
+    let tg = window.Telegram.WebApp;
+
+    tg.expand();
+
+    tg.MainButton.text = "Create";
+    tg.MainButton.show();
+
+    Telegram.WebApp.onEvent("mainButtonClicked", function () {
+      let jobInput = document.getElementById("job");
+      let dateInput = document.getElementById("date");
+
+      let jobValue = jobInput.value;
+      let dateValue = dateInput.value;
+
+      let errorJob = document.querySelector(".error-job");
+      let errorDate = document.querySelector(".error-date");
+
+      if (jobValue && dateValue) {
+        let dataObj = {
+          job: jobValue,
+          date: dateValue,
+        };
+        tg.sendData(JSON.stringify(dataObj));
+      } else {
+        if (!jobValue) {
+          errorJob.classList.remove("hide");
+          errorJob.classList.add("show");
+        } else {
+          errorJob.classList.remove("show");
+          errorJob.classList.add("hide");
+        }
+
+        if (!dateValue) {
+          errorDate.classList.remove("hide");
+          errorDate.classList.add("show");
+        } else {
+          errorDate.classList.remove("show");
+          errorDate.classList.add("hide");
+        }
+      }
+    });
+  </script>
+</html>

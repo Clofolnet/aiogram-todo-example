@@ -1,0 +1,7 @@
+only_registration = "First register via /start"
+create_job_button_message = "Create"
+create_job_message = "Send a message indicating what you need to be reminded of"
+create_job_get_date = "Now enter the reminder date in the format dd.mm.yyyy"
+success_message = "Success"
+create_job_with_web_app = "Create a business with the web app right in the bot!"
+hello_again_message = "Hi. You're registered, let's create reminders!"
